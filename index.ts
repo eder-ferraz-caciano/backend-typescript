@@ -1,4 +1,5 @@
 import express from "express";
+import "reflect-metadata";
 import "dotenv/config";
 import cors from "cors";
 import bodyParse from "body-parser";
