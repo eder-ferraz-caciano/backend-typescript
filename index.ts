@@ -1,19 +1,21 @@
-import express from "express";
 import "reflect-metadata";
-import "dotenv/config";
+import {createConnection} from "typeorm";
+import express from "express";
 import cors from "cors";
-import bodyParse from "body-parser";
-import { Controller } from "./src/router/router"
+import bodyparser from "body-parser";
+import ClasseRouter from "./src/router";
 
-let app = express();
+createConnection().then(async connection => {
 
-app.use(bodyParse.json());
-app.use(cors());
+    let app = express();
+    app.use(cors());
+    app.use(bodyparser.json());
 
-new Controller(app);
+    new ClasseRouter(app);
 
-app.listen(process.env.APP_PORT, () => {
-  console.log(`Servidor inicializado! - Host: ${process.env.APP_HOST} - Port: ${process.env.APP_PORT} - Database: ${process.env.DB_DATABASE}`)
-});
+    app.listen(process.env.APP_PORT, () => {
+        console.log(`🏃‍♂️ Running!
+Host: ${process.env.APP_HOST} - Port: ${process.env.APP_PORT} - Database: ${process.env.DB_DATABASE}`);
+    });
 
-export default app;
+}).catch(error => console.log(error));
