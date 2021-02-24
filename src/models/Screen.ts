@@ -1,9 +1,9 @@
-import {Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
+import { Audit } from "../core/AuditFields";
+import {Column, Entity, ManyToMany, PrimaryGeneratedColumn} from "typeorm";
+import { User } from "./User";
 
 @Entity()
-export class Screen {
-  constructor () {}
-
+export class Screen extends Audit {
   @PrimaryGeneratedColumn()
   id: number | undefined
 
@@ -25,22 +25,7 @@ export class Screen {
   @Column({length: 25, type: String, nullable: true})
   icon_color: string | undefined;
 
-  @Column({length: 60, type: String, nullable: true})
-  created_by: string | undefined;
-
-  @CreateDateColumn()
-  created_at: Date | undefined;
-
-  @Column({length: 60, type: String, nullable: true})
-  updated_by: string | undefined;
-
-  @UpdateDateColumn()
-  updated_at: Date | undefined;
-
-  @Column({length: 60, type: String, nullable: true})
-  deleted_by: string | undefined;
-
-  @DeleteDateColumn()
-  deleted_at: Date | undefined;
+  @ManyToMany(() => User, (user: any) => user.screans)
+  users: User[] | undefined;
 
 }

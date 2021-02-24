@@ -1,3 +1,5 @@
+// import UserController from "@controller/admin/user";
+import ScreenController from "../controller/admin/screen";
 import express from "express";
 import UserController from "../controller/admin/user";
 // import { UserScreen } from "../controller/admin/user_screen";
@@ -10,17 +12,16 @@ import UserController from "../controller/admin/user";
 export default class Admin {
   constructor (app: express.Express) {
     const user = new UserController();
-    // const user = new User;
     // const userScreen = new UserScreen;
     // const userRequest = new UserRequest;
-    // const screen = new Screen;
+    const screen = new ScreenController();
     // const requestScreen = new RequestScreen;
 
-    app.get("/user/listar",         user.listar)
-    // app.get("/user/exibir/:id",     user.exibir)
-    // app.put("/user/editar",         user.editar)
-    // app.post("/user/salvar",        user.salvar)
-    // app.delete("/user/deletar/:id", user.deletar)
+    app.get("/user/listar",         user.onList);
+    app.get("/user/exibir/:id",     user.onView);
+    app.put("/user/editar",         user.onEdit);
+    app.post("/user/salvar",        user.onSave);
+    app.delete("/user/deletar/:id", user.onDelete);
 
     // app.get("/user-screen/listar",         userScreen.listar)
     // app.get("/user-screen/exibir/:id",     userScreen.exibir)
@@ -34,11 +35,11 @@ export default class Admin {
     // app.post("/user-request/salvar",        userRequest.salvar)
     // app.delete("/user-request/deletar/:id", userRequest.deletar)
 
-    // app.get("/screen/listar",         screen.listar)
-    // app.get("/screen/exibir/:id",     screen.exibir)
-    // app.put("/screen/editar",         screen.editar)
-    // app.post("/screen/salvar",        screen.salvar)
-    // app.delete("/screen/deletar/:id", screen.deletar)
+    app.get("/screen/listar",         screen.onList)
+    app.get("/screen/exibir/:id",     screen.onView)
+    app.put("/screen/editar",         screen.onEdit)
+    app.post("/screen/salvar",        screen.onSave)
+    app.delete("/screen/deletar/:id", screen.onDelete)
 
     // app.get("/request-screen/listar",         requestScreen.listar)
     // app.get("/request-screen/exibir/:id",     requestScreen.exibir)

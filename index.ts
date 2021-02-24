@@ -4,6 +4,7 @@ import express from "express";
 import cors from "cors";
 import bodyparser from "body-parser";
 import ClasseRouter from "./src/router";
+import "module-alias/register";
 
 createConnection().then(async connection => {
 

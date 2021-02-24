@@ -7,13 +7,13 @@ module.exports = {
    "synchronize": true,
    "logging": false,
    "entities": [
-      "src/models/**/*.ts"
+      process.env.APP_MODE === 'dev' ? "build/src/models/**/*.js" : "src/models/**/*.ts"
    ],
    "migrations": [
-      "src/database/migration/**/*.ts"
+      process.env.APP_MODE === 'dev' ? "build/src/database/migration/**/*.js" : "src/database/migration/**/*.ts"
    ],
    "subscribers": [
-      "src/subscriber/**/*.ts"
+      process.env.APP_MODE === 'dev' ? "build/src/subscriber/**/*.js" : "src/subscriber/**/*.ts"
    ],
    "cli": {
       "entitiesDir": "src/models",

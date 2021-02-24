@@ -1,9 +1,11 @@
-import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn} from "typeorm";
+
+import { Audit } from "../core/AuditFields";
+import {Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn} from "typeorm";
+import { RequestScreen } from "./RequestScreen";
+import { Screen } from "./Screen";
 
 @Entity()
-export class User {
-  constructor () {
-  }
+export class User extends Audit {
     @PrimaryGeneratedColumn()
     id: number | undefined;
 
@@ -28,22 +30,31 @@ export class User {
     @Column({length: 500, type: String, nullable: true})
     theme: string | undefined;
 
-    @Column({length: 60, type: String, nullable: true})
-    created_by: string | undefined
+    @ManyToMany(() => Screen, (screen: any) => screen.users)
+    @JoinTable({
+      name: "user_screen",
+      joinColumn: {
+        name: "user_id",
+        referencedColumnName: "id"
+      },
+      inverseJoinColumn: {
+          name: "screen_id",
+          referencedColumnName: "id"
+      }
+    })
+    screans: Screen[] | undefined;
 
-    @CreateDateColumn()
-    created_at: Date | undefined
-
-    @Column({length: 60, type: String, nullable: true})
-    updated_by: string | undefined
-
-    @UpdateDateColumn()
-    updated_at: Date | undefined
-
-    @Column({length: 60, type: String, nullable: true})
-    deleted_by: string | undefined
-
-    @DeleteDateColumn()
-    deleted_at: Date | undefined
-
+    @ManyToMany(() => RequestScreen, (request: any) => request.users)
+    @JoinTable({
+      name: "user_request",
+      joinColumn: {
+        name: "user_id",
+        referencedColumnName: "id"
+      },
+      inverseJoinColumn: {
+          name: "request_screen_id",
+          referencedColumnName: "id"
+      }
+    })
+    requests: RequestScreen[] | undefined;
 }
